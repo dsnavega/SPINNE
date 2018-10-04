@@ -1,0 +1,17 @@
+Package: SPINNE
+Title: Spine Proportion through Neural Networks Implementation
+Description: SPINNE application for vertebral height reconstruction.
+Version: 0.1.0
+License: GPL-2
+Authors@R: c( 
+    person(given = "João", family = "Coelho", email = "joaopedrocoelho@gmail.com", role = c("aut")),
+    person(given = "David", family = "Navega", email = "dsnavega@gmail.com", role = c("aut", "cre")))
+Depends: R (>= 3.4)
+Imports:
+  shiny,
+  plotly,
+  corrplot
+Remotes:
+  github::dsnavega/grnnet
+RoxygenNote: 6.1.0
+Encoding:UTF-8
