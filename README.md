@@ -13,3 +13,14 @@ SPINNE is available on-line as part of the [Osteomics](http://osteomics.com/) pr
 
 SPINNE was developed and is maintained by [João Coelho](https://scholar.google.pt/citations?user=Yeb6Q3gAAAAJ&hl) and
 [David Navega](https://scholar.google.pt/citations?user=a3Is9uQAAAAJ&hl).
+
+SPINNE can also be ran locally by installing it as a R package:
+
+**Instruction**  
+
+To install:
+`install.package(devtools)` (only if *devtools* is not installed)
+`devtools::install_github("dsnavega/SPINNE)"`  
+To execute:
+`library(SPINNE)`
+`SPINNE()`
