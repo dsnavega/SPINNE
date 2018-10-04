@@ -21,7 +21,7 @@ SPINNE can also be ran locally by installing it as a R package:
 To install:  
 
 `install.package(devtools)` (only if *devtools* is not installed)  
-`devtools::install_github("dsnavega/SPINNE`
+`devtools::install_github("dsnavega/SPINNE")`
 
 To execute:  
 
