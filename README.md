@@ -2,8 +2,8 @@
 an app for human vertebral height estimation based on artificial neural networks
 
 # About
-SPINNE is decision support system built with R and [Shiny web framework](https://shiny.rstudio.com/) to provide vertebral
-height estimation - reconstruction which has several important applications in biological anthropology and forensic medicine.
+SPINNE is a decision support system built with R and the [Shiny web framework](https://shiny.rstudio.com/) to provide vertebral
+height estimation - reconstruction, which has several important applications in biological anthropology and forensic medicine.
 
 SPINNE implements a single- and multi-output regression approach to missing value estimation through the training of a modified
 [Generalized Regression Neural Network](https://github.com/dsnavega/grnnet) architecture.
