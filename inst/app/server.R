@@ -1,9 +1,21 @@
-source("global.R")
+library(shiny)
+library(grnnet)
+library(corrplot)
+library(ggplot2)
+
+vertebrae.db <- readRDS(file = "data/dvb.rds")
+vertebrae.female <- vertebrae.db[vertebrae.db$SEX == 'Female', ]
+vertebrae.male <- vertebrae.db[vertebrae.db$SEX == 'Male', ]
+codenames <- colnames(vertebrae.db[ , -c(1:3)])
+outnames <- codenames
+
+
 function(input, output, session) {
   
   
-  # Density plots with ggplot ----
-  output$densPlot <- renderPlotly({
+  # Density plots with ggplot
+  
+  output$densPlot <- renderPlot({
     
     drange <- density(vertebrae.db[,input$dpvar], na.rm = T)
     
@@ -15,7 +27,7 @@ function(input, output, session) {
         geom_density(alpha = input$alpha, kernel = input$kernel, adjust = input$bandwidth) +
         xlim(range(drange$x)) + theme_bw()
     }
-    
+    p
   })
   
   output$normTest <- renderPrint({
@@ -23,8 +35,8 @@ function(input, output, session) {
     cat(st$method, 'for', input$dpvar, 'is W =', st$statistic, 'with a p-value =', st$p.value)
   })
   
-  # Boxplots with ggplot ----
-  output$boxPlot <- renderPlotly({
+  # Boxplots with ggplot
+  output$boxPlot <- renderPlot({
     
     if (input$truedata == FALSE) {
       bp <- ggplot(vertebrae.db, aes_string(x = 'SEX', y = input$bpvar, fill = 'SEX')) +
@@ -38,11 +50,11 @@ function(input, output, session) {
       bp + theme(legend.position = 'none')
       
     }
-    
+    bp
   })
   
-  # Scatterplots with ggplot ----
-  output$scatterPlot <- renderPlotly({
+  # Scatterplots with ggplot
+  output$scatterPlot <- renderPlot({
     
     if (input$filter2 == FALSE) {
       sp <- ggplot(vertebrae.db, aes_string(x = input$xvar, y = input$yvar)) +
@@ -51,9 +63,11 @@ function(input, output, session) {
       sp <- ggplot(vertebrae.db, aes_string(x = input$xvar, y = input$yvar, colour = 'SEX')) +
         geom_point() + geom_smooth(span = input$spanner) + theme_bw()
     }
+    sp
   })
   
-  # Correlation matrix with corrplot ----
+  # Correlation matrix
+  
   output$corrPlot <- renderPlot({
     col1 <- colorRampPalette(c('#fb8c7f', '#808080', '#00c8ce'))
     if (input$cor.filter == 'males') {
@@ -74,10 +88,11 @@ function(input, output, session) {
     )
   })
   
+  ###################
   
-  # Estimate Missing Values ----
   observe({
-    ex <<- input$variable
+    ex <- input$variable
+    
     
     # Can also set the label and select items
     updateSelectInput(session, "variable2",
@@ -111,7 +126,6 @@ function(input, output, session) {
   
   
   output$vars <- renderUI({
-    
     # If missing input, return to avoid error later in function
     if(length(data()) < 1)
       return()
@@ -177,13 +191,12 @@ function(input, output, session) {
       # [+] Train grnnet Object
       object <- grnnet(x = X, y = Y, alpha = elfo)
       
-      # metrics <- as.data.frame(object$metrics)
       metrics <- evaluate_grnnet(object)
-      pred <- predict(object, dif)
-      estimated_vertebrae <- names(pred)
-      pred <- matrix(unlist(pred), ncol = 3, byrow = TRUE)
-      colnames(pred) <- c('Predicted', 'Lower', 'Upper')
-      temp <- data.frame(pred, metrics[,1:7])
+      estimate <- predict(object, dif)
+      estimated_vertebrae <- names(estimate)
+      estimate <- matrix(unlist(estimate), ncol = 3, byrow = TRUE)
+      colnames(estimate) <- c('Estimate', 'Lower', 'Upper')
+      temp <- data.frame(estimate, metrics[,1:7])
       rownames(temp) <- estimated_vertebrae
       
       values$df_data <- temp
