@@ -182,7 +182,7 @@ shinyUI(
             ),
             column(8,
                    strong('Results'),
-                   textOutput('total'),
+                   # textOutput('total'),
                    hr(),
                    tableOutput('predictions')
             )

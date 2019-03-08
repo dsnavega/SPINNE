@@ -189,13 +189,13 @@ function(input, output, session) {
       values$df_data <- temp
       
       
-      output$total <- renderPrint({
-        sum_in <- sum(as.numeric(dif))
-        sum_out <- sum(as.numeric(values$df_data[-1,'PREDICTIONS']))
-        sumt <- sum_out + sum_in
-        cat('Through the sum of all variables,
-									partial total column size is', sumt, 'mm')
-      })
+#       output$total <- renderPrint({
+#         sum_in <- sum(as.numeric(dif))
+#         sum_out <- sum(as.numeric(values$df_data[-1,'PREDICTIONS']))
+#         sumt <- sum_out + sum_in
+#         cat('Through the sum of all variables,
+# 									partial total column size is', sumt, 'mm')
+#       })
       
       output$predictions <- renderTable({
         values$df_data
